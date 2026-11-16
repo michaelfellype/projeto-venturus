@@ -33,6 +33,33 @@ function excluir(id) {
   atualizar();
 }
 
+function configurarTema() {
+  const btnTema = document.getElementById('btn-tema');
+  if (!btnTema) return;
+
+  function aplicarTema(tema) {
+    if (tema === 'escuro') {
+      document.documentElement.setAttribute('data-tema', 'escuro');
+      btnTema.textContent = '☀️ Tema claro';
+    } else {
+      document.documentElement.removeAttribute('data-tema');
+      btnTema.textContent = '🌙 Tema escuro';
+    }
+  }
+
+  // carrega o tema salvo ou usa o claro por padrao
+  const temaSalvo = localStorage.getItem('tema') || 'claro';
+  aplicarTema(temaSalvo);
+
+  btnTema.addEventListener('click', () => {
+    const estaEscuro = document.documentElement.getAttribute('data-tema') === 'escuro';
+    const novoTema = estaEscuro ? 'claro' : 'escuro';
+
+    localStorage.setItem('tema', novoTema);
+    aplicarTema(novoTema);
+  });
+}
+
 function configurarData() {
   const inputData = document.getElementById('seletor-data');
   if (!inputData) return;
@@ -82,7 +109,8 @@ function configurarReset() {
   });
 }
 
-function iniciar() {
+function inicializar() {
+  configurarTema();
   configurarData();
 
   configurarForm('form-faculdade', 'input-faculdade', 'Faculdade');
@@ -94,4 +122,4 @@ function iniciar() {
   atualizar();
 }
 
-iniciar();
+inicializar();
