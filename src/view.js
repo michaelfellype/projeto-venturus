@@ -1,138 +1,110 @@
-// =========================================================
-// MÓDULO DE INTERFACE VISUAL (src/view.js)
-// Responsável por manipular o DOM: desenhar as tarefas na tela,
-// atualizar as barras de progresso e atualizar os status dinâmicos.
-// =========================================================
+const categorias = ['Faculdade', 'Estudos', 'Pessoal', 'Entretenimento'];
 
-// Mapeamento das 4 categorias com seus respectivos elementos no HTML
-const CATEGORIAS = [
-  { nome: 'Faculdade', sufixo: 'faculdade' },
-  { nome: 'Estudos', sufixo: 'estudos' },
-  { nome: 'Pessoal', sufixo: 'pessoal' },
-  { nome: 'Entretenimento', sufixo: 'entretenimento' }
-];
-
-// 1. Função principal que atualiza toda a interface visual
-export function renderizarTela(tarefas, onAlternar, onRemover) {
-  // Limpa as 4 listas antes de redesenhar
-  CATEGORIAS.forEach(cat => {
-    const listaUl = document.getElementById(`lista-${cat.sufixo}`);
-    if (listaUl) listaUl.innerHTML = '';
+export function renderizar(tarefas, onMarcar, onRemover) {
+  // limpa os cards antes de recriar as listas
+  categorias.forEach(cat => {
+    const lista = document.getElementById('lista-' + cat.toLowerCase());
+    if (lista) lista.innerHTML = '';
   });
 
-  // Insere cada tarefa na lista do seu respectivo cartão
   tarefas.forEach(tarefa => {
-    const categoriaInfo = CATEGORIAS.find(cat => cat.nome === tarefa.category);
-    if (!categoriaInfo) return;
-
-    const listaUl = document.getElementById(`lista-${categoriaInfo.sufixo}`);
-    if (listaUl) {
-      const itemLi = criarElementoTarefa(tarefa, onAlternar, onRemover);
-      listaUl.appendChild(itemLi);
+    const lista = document.getElementById('lista-' + tarefa.categoria.toLowerCase());
+    if (lista) {
+      lista.appendChild(criarItem(tarefa, onMarcar, onRemover));
     }
   });
 
-  // Atualiza as barras de progresso e os status dos 4 cartões
-  atualizarProgressoDosCards(tarefas);
-
-  // Atualiza a barra de progresso geral no topo
-  atualizarProgressoGeral(tarefas);
+  atualizarProgresso(tarefas);
 }
 
-// 2. Cria o elemento HTML <li> de uma tarefa com botão de check, texto e botão excluir
-function criarElementoTarefa(tarefa, onAlternar, onRemover) {
+export const renderizarTela = renderizar;
+
+function criarItem(tarefa, onMarcar, onRemover) {
   const li = document.createElement('li');
   li.className = 'tarefa';
-  if (tarefa.completed) {
+  if (tarefa.concluida) {
     li.classList.add('concluida');
   }
 
-  // Botão quadrado de marcar / desmarcar a tarefa
-  const botaoCheck = document.createElement('button');
-  botaoCheck.type = 'button';
-  botaoCheck.className = 'tarefa-check';
-  botaoCheck.textContent = tarefa.completed ? '✓' : '';
-  botaoCheck.title = tarefa.completed ? 'Marcar como pendente' : 'Marcar como concluída';
-  botaoCheck.addEventListener('click', () => onAlternar(tarefa.id));
+  const btnCheck = document.createElement('button');
+  btnCheck.type = 'button';
+  btnCheck.className = 'tarefa-check';
+  btnCheck.textContent = tarefa.concluida ? '✓' : '';
+  btnCheck.setAttribute('aria-label', tarefa.concluida ? 'Marcar como pendente' : 'Marcar como concluída');
+  btnCheck.addEventListener('click', () => onMarcar(tarefa.id));
 
-  // Texto descritivo da tarefa
-  const spanTexto = document.createElement('span');
-  spanTexto.className = 'tarefa-texto';
-  spanTexto.textContent = tarefa.title;
+  const span = document.createElement('span');
+  span.className = 'tarefa-texto';
+  span.textContent = tarefa.titulo;
 
-  // Botão ✕ para excluir a tarefa
-  const botaoExcluir = document.createElement('button');
-  botaoExcluir.type = 'button';
-  botaoExcluir.className = 'tarefa-remover';
-  botaoExcluir.textContent = '✕';
-  botaoExcluir.title = 'Excluir tarefa';
-  botaoExcluir.addEventListener('click', () => onRemover(tarefa.id));
+  const btnRemover = document.createElement('button');
+  btnRemover.type = 'button';
+  btnRemover.className = 'tarefa-remover';
+  btnRemover.textContent = '✕';
+  btnRemover.setAttribute('aria-label', 'Excluir tarefa');
+  btnRemover.addEventListener('click', () => onRemover(tarefa.id));
 
-  // Monta a estrutura do item da lista
-  li.appendChild(botaoCheck);
-  li.appendChild(spanTexto);
-  li.appendChild(botaoExcluir);
+  li.appendChild(btnCheck);
+  li.appendChild(span);
+  li.appendChild(btnRemover);
 
   return li;
 }
 
-// 3. Atualiza o status dinâmico e a barra de progresso individual de cada um dos 4 cartões
-function atualizarProgressoDosCards(tarefas) {
-  CATEGORIAS.forEach(cat => {
-    // Filtra apenas as tarefas desta categoria
-    const tarefasCard = tarefas.filter(t => t.category === cat.nome);
-    const total = tarefasCard.length;
-    const concluidas = tarefasCard.filter(t => t.completed).length;
-    const porcentagem = total === 0 ? 0 : Math.round((concluidas / total) * 100);
+function atualizarProgresso(tarefas) {
+  // calcula o progresso de cada card
+  categorias.forEach(cat => {
+    const sufixo = cat.toLowerCase();
+    let total = 0;
+    let concluidas = 0;
 
-    // Atualiza a barra visual e o texto de progresso do cartão (ex: "1/3 (33%)")
-    const textoProgresso = document.getElementById(`progresso-texto-${cat.sufixo}`);
-    const barraFill = document.getElementById(`progresso-fill-${cat.sufixo}`);
-    if (textoProgresso) textoProgresso.textContent = `${concluidas}/${total} (${porcentagem}%)`;
-    if (barraFill) barraFill.style.width = `${porcentagem}%`;
+    for (let i = 0; i < tarefas.length; i++) {
+      if (tarefas[i].categoria === cat) {
+        total++;
+        if (tarefas[i].concluida) {
+          concluidas++;
+        }
+      }
+    }
 
-    // Atualiza o status dinâmico com a bolinha colorida
-    const statusContainer = document.getElementById(`status-${cat.sufixo}`);
-    if (statusContainer) {
-      atualizarStatusDinamico(statusContainer, total, concluidas);
+    const pct = total === 0 ? 0 : Math.round((concluidas / total) * 100);
+
+    const texto = document.getElementById('progresso-texto-' + sufixo);
+    const barra = document.getElementById('progresso-fill-' + sufixo);
+    if (texto) texto.textContent = `${concluidas}/${total} (${pct}%)`;
+    if (barra) barra.style.width = pct + '%';
+
+    const status = document.getElementById('status-' + sufixo);
+    if (status) {
+      status.classList.remove('status-nao-iniciado', 'status-em-andamento', 'status-concluido');
+      const textoStatus = status.querySelector('.status-texto');
+
+      if (total > 0 && concluidas === total) {
+        status.classList.add('status-concluido');
+        if (textoStatus) textoStatus.textContent = 'Concluído';
+      } else if (concluidas > 0) {
+        status.classList.add('status-em-andamento');
+        if (textoStatus) textoStatus.textContent = 'Em andamento';
+      } else {
+        status.classList.add('status-nao-iniciado');
+        if (textoStatus) textoStatus.textContent = 'Não iniciado';
+      }
     }
   });
-}
 
-// 4. Define a cor da bolinha e o texto do status conforme o progresso do cartão:
-//    - Não iniciado: 0% concluído
-//    - Em andamento: pelo menos 1 concluída, mas não todas
-//    - Concluído: 100% concluído
-function atualizarStatusDinamico(container, total, concluidas) {
-  const spanTexto = container.querySelector('.status-texto');
-
-  // Remove as classes de status antigas
-  container.classList.remove('status-nao-iniciado', 'status-em-andamento', 'status-concluido');
-
-  if (total > 0 && concluidas === total) {
-    // 100% das tarefas concluídas
-    container.classList.add('status-concluido');
-    if (spanTexto) spanTexto.textContent = 'Concluído';
-  } else if (concluidas > 0 && concluidas < total) {
-    // Pelo menos uma marcada, mas ainda faltam outras
-    container.classList.add('status-em-andamento');
-    if (spanTexto) spanTexto.textContent = 'Em andamento';
-  } else {
-    // 0% concluído ou cartão sem tarefas
-    container.classList.add('status-nao-iniciado');
-    if (spanTexto) spanTexto.textContent = 'Não iniciado';
+  // progresso geral do dia
+  let totalGeral = tarefas.length;
+  let concluidasGeral = 0;
+  for (let i = 0; i < tarefas.length; i++) {
+    if (tarefas[i].concluida) {
+      concluidasGeral++;
+    }
   }
-}
 
-// 5. Atualiza a barra de progresso geral do dia no topo da tela
-function atualizarProgressoGeral(tarefas) {
-  const total = tarefas.length;
-  const concluidas = tarefas.filter(t => t.completed).length;
-  const porcentagem = total === 0 ? 0 : Math.round((concluidas / total) * 100);
+  const pctGeral = totalGeral === 0 ? 0 : Math.round((concluidasGeral / totalGeral) * 100);
 
   const textoGeral = document.getElementById('progresso-geral-texto');
-  const barraGeralFill = document.getElementById('progresso-geral-fill');
-
-  if (textoGeral) textoGeral.textContent = `${concluidas}/${total} (${porcentagem}%)`;
-  if (barraGeralFill) barraGeralFill.style.width = `${porcentagem}%`;
+  const barraGeral = document.getElementById('progresso-geral-fill');
+  if (textoGeral) textoGeral.textContent = `${concluidasGeral}/${totalGeral} (${pctGeral}%)`;
+  if (barraGeral) barraGeral.style.width = pctGeral + '%';
 }

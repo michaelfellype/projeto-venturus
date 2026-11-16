@@ -1,117 +1,96 @@
-// =========================================================
-// MÓDULO DE ESTADO (src/state.js)
-// Responsável por gerenciar os dados e salvar no localStorage.
-// Cada dia possui suas próprias tarefas salvas de forma independente.
-// =========================================================
+const PREFIXO = 'tarefas_';
 
-// Prefixo usado para salvar as tarefas no localStorage por data
-const PREFIXO_CHAVE = 'tarefas_estudante_';
-
-// Tarefas de exemplo que aparecem quando um dia é aberto pela primeira vez
 const TAREFAS_PADRAO = [
-  // Categoria: Faculdade
-  { id: 'f1', category: 'Faculdade', title: 'Pesquisar tema do artigo de História', completed: false },
-  { id: 'f2', category: 'Faculdade', title: 'Completar lista de exercícios do Cap. 5', completed: false },
-  { id: 'f3', category: 'Faculdade', title: 'Escrever resenha do livro de literatura', completed: false },
+  { id: 'f1', categoria: 'Faculdade', titulo: 'Pesquisar tema do artigo de História', concluida: false },
+  { id: 'f2', categoria: 'Faculdade', titulo: 'Completar lista de exercícios do Cap. 5', concluida: false },
+  { id: 'f3', categoria: 'Faculdade', titulo: 'Escrever resenha do livro de literatura', concluida: false },
 
-  // Categoria: Estudos
-  { id: 'e1', category: 'Estudos', title: 'Revisar anotações da aula e fazer resumo', completed: false },
-  { id: 'e2', category: 'Estudos', title: 'Resolver simulado para a prova de sexta', completed: false },
-  { id: 'e3', category: 'Estudos', title: 'Reunir com o grupo do projeto de física', completed: false },
+  { id: 'e1', categoria: 'Estudos', titulo: 'Revisar anotações da aula e fazer resumo', concluida: false },
+  { id: 'e2', categoria: 'Estudos', titulo: 'Resolver simulado para a prova de sexta', concluida: false },
+  { id: 'e3', categoria: 'Estudos', titulo: 'Reunir com o grupo do projeto de física', concluida: false },
 
-  // Categoria: Pessoal
-  { id: 'p1', category: 'Pessoal', title: 'Fazer 30 minutos de caminhada ou treino', completed: false },
-  { id: 'p2', category: 'Pessoal', title: 'Praticar 15 minutos de vocabulário de inglês', completed: false },
-  { id: 'p3', category: 'Pessoal', title: 'Atualizar currículo e perfil do LinkedIn', completed: false },
+  { id: 'p1', categoria: 'Pessoal', titulo: 'Fazer 30 minutos de caminhada ou treino', concluida: false },
+  { id: 'p2', categoria: 'Pessoal', titulo: 'Praticar 15 minutos de vocabulário de inglês', concluida: false },
+  { id: 'p3', categoria: 'Pessoal', titulo: 'Atualizar currículo e perfil do LinkedIn', concluida: false },
 
-  // Categoria: Entretenimento
-  { id: 'd1', category: 'Entretenimento', title: 'Assistir a um filme ou episódio de série', completed: false },
-  { id: 'd2', category: 'Entretenimento', title: 'Jogar um pouco do jogo favorito', completed: false },
-  { id: 'd3', category: 'Entretenimento', title: 'Ler um capítulo de um livro por lazer', completed: false }
+  { id: 'd1', categoria: 'Entretenimento', titulo: 'Assistir a um filme ou episódio de série', concluida: false },
+  { id: 'd2', categoria: 'Entretenimento', titulo: 'Jogar um pouco do jogo favorito', concluida: false },
+  { id: 'd3', categoria: 'Entretenimento', titulo: 'Ler um capítulo de um livro por lazer', concluida: false }
 ];
 
-// Monta a chave completa do localStorage para uma data específica (ex: "tarefas_estudante_2026-11-15")
-function obterChaveStorage(data) {
-  return `${PREFIXO_CHAVE}${data}`;
+function salvar(data, lista) {
+  try {
+    localStorage.setItem(PREFIXO + data, JSON.stringify(lista));
+  } catch (erro) {
+    console.error('Erro ao salvar tarefas:', erro);
+  }
 }
 
-// 1. Busca as tarefas da data informada no localStorage
-export function obterTarefas(data) {
+// apenas le os dados salvos ou retorna a lista padrao sem gravar nada no storage
+export function pegarTarefas(data) {
   try {
-    const chave = obterChaveStorage(data);
-    const dadosSalvos = localStorage.getItem(chave);
+    const dados = localStorage.getItem(PREFIXO + data);
 
-    // Se ainda não existir registro para este dia, inicializa com as tarefas padrão
-    if (dadosSalvos === null) {
-      salvarTarefas(data, TAREFAS_PADRAO);
-      return TAREFAS_PADRAO.map(tarefa => ({ ...tarefa }));
+    if (!dados) {
+      return TAREFAS_PADRAO.map(t => ({ ...t }));
     }
 
-    // Converte a string JSON de volta para array de objetos
-    const tarefas = JSON.parse(dadosSalvos);
-    return Array.isArray(tarefas) ? tarefas : [];
+    const lista = JSON.parse(dados);
+    return Array.isArray(lista) ? lista : [];
   } catch (erro) {
-    console.error('Erro ao ler do localStorage:', erro);
+    console.error('Erro ao ler tarefas:', erro);
     return [];
   }
 }
 
-// 2. Salva a lista de tarefas da data informada no localStorage
-export function salvarTarefas(data, listaTarefas) {
-  try {
-    const chave = obterChaveStorage(data);
-    // JSON.stringify transforma o array em texto para o localStorage conseguir guardar
-    localStorage.setItem(chave, JSON.stringify(listaTarefas));
-  } catch (erro) {
-    console.error('Erro ao salvar no localStorage:', erro);
-  }
-}
+export const obterTarefas = pegarTarefas;
 
-// 3. Adiciona uma nova tarefa na data informada
 export function adicionarTarefa(data, titulo, categoria) {
-  const tarefas = obterTarefas(data);
+  const tarefas = pegarTarefas(data);
 
-  // Cria um objeto simples para a nova tarefa
-  const novaTarefa = {
-    id: `tarefa-${Date.now()}`, // ID único gerado a partir do milissegundo atual
-    category: categoria,
-    title: titulo.trim(),
-    completed: false
-  };
+  tarefas.push({
+    id: 't_' + Date.now(),
+    categoria: categoria,
+    titulo: titulo.trim(),
+    concluida: false
+  });
 
-  // Adiciona no final da lista e salva
-  tarefas.push(novaTarefa);
-  salvarTarefas(data, tarefas);
+  salvar(data, tarefas);
   return tarefas;
 }
 
-// 4. Marca ou desmarca uma tarefa como concluída (inverte o valor de completed)
-export function alternarTarefa(data, idTarefa) {
-  const tarefas = obterTarefas(data);
+export function marcarTarefa(data, id) {
+  const tarefas = pegarTarefas(data);
 
-  const tarefasAtualizadas = tarefas.map(tarefa => {
-    if (tarefa.id === idTarefa) {
-      return { ...tarefa, completed: !tarefa.completed };
+  for (let i = 0; i < tarefas.length; i++) {
+    if (tarefas[i].id === id) {
+      tarefas[i].concluida = !tarefas[i].concluida;
+      break;
     }
-    return tarefa;
-  });
+  }
 
-  salvarTarefas(data, tarefasAtualizadas);
-  return tarefasAtualizadas;
+  salvar(data, tarefas);
+  return tarefas;
 }
 
-// 5. Remove uma tarefa da data pelo ID
-export function removerTarefa(data, idTarefa) {
-  const tarefas = obterTarefas(data);
-  const tarefasFiltradas = tarefas.filter(tarefa => tarefa.id !== idTarefa);
+export const alternarTarefa = marcarTarefa;
 
-  salvarTarefas(data, tarefasFiltradas);
-  return tarefasFiltradas;
+export function removerTarefa(data, id) {
+  const tarefas = pegarTarefas(data);
+  const novaLista = [];
+
+  for (let i = 0; i < tarefas.length; i++) {
+    if (tarefas[i].id !== id) {
+      novaLista.push(tarefas[i]);
+    }
+  }
+
+  salvar(data, novaLista);
+  return novaLista;
 }
 
-// 6. Restaura as tarefas padrão para a data informada
 export function restaurarPadrao(data) {
-  const tarefasCopia = TAREFAS_PADRAO.map(tarefa => ({ ...tarefa }));
-  salvarTarefas(data, tarefasCopia);
-  return tarefasCopia;
+  const padrao = TAREFAS_PADRAO.map(t => ({ ...t }));
+  salvar(data, padrao);
+  return padrao;
 }

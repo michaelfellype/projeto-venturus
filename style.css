@@ -1,42 +1,19 @@
-/* =========================================================
-   ESTILOS - MEUS DIAS DE ESTUDANTE 🤓
-   Projeto desenvolvido com HTML, CSS e JavaScript puro.
-   Estrutura pensada para ser limpa, didática e fácil de explicar.
-   ========================================================= */
+/* Estilos da pagina */
 
-/* ---------------------------------------------------------
-   1. VARIÁVEIS DE CORES E CONFIGURAÇÕES GERAIS
-   --------------------------------------------------------- */
 :root {
-  /* Cores temáticas dos 4 cartões */
-  --verde-fundo: #e8f5e9;
-  --verde-header: #66bb6a;
-  --laranja-fundo: #fff3e0;
-  --laranja-header: #ffa726;
-  --rosa-fundo: #ffebee;
-  --rosa-header: #ef5350;
-  --azul-fundo: #e8eaf6;
-  --azul-header: #5c6bc0;
+  --fundo: #f4f5f7;
+  --card: #ffffff;
+  --texto: #2c3e50;
+  --texto-suave: #7f8c8d;
+  --borda: #dcdde1;
 
-  /* Cores de status dinâmico */
-  --status-nao-iniciado: #e53935; /* Vermelho/cinza para não iniciado */
-  --status-em-andamento: #fb8c00; /* Laranja/amarelo para em andamento */
-  --status-concluido: #43a047;    /* Verde para 100% concluído */
-
-  /* Cores neutras do layout */
-  --fundo-pagina: #f4f6f8;
-  --fundo-card: #ffffff;
-  --texto-principal: #2d3748;
-  --texto-secundario: #718096;
-  --borda: #e2e8f0;
-  --sombra: 0 4px 12px rgba(0, 0, 0, 0.06);
-  --raio-borda: 12px;
+  --verde: #27ae60;
+  --laranja: #e67e22;
+  --vermelho: #e74c3c;
+  --azul: #2980b9;
 }
 
-/* ---------------------------------------------------------
-   2. RESET BÁSICO E TIPOGRAFIA
-   --------------------------------------------------------- */
-*, *::before, *::after {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -44,21 +21,17 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: var(--fundo-pagina);
-  color: var(--texto-principal);
+  background-color: var(--fundo);
+  color: var(--texto);
   min-height: 100vh;
   padding: 2rem 1rem;
 }
 
-/* Container central que limita a largura na tela */
 .container {
   max-width: 760px;
   margin: 0 auto;
 }
 
-/* ---------------------------------------------------------
-   3. CABEÇALHO
-   --------------------------------------------------------- */
 .cabecalho {
   text-align: center;
   margin-bottom: 1.5rem;
@@ -72,24 +45,21 @@ body {
 .titulo-principal {
   font-size: 1.8rem;
   font-weight: 700;
-  color: var(--texto-principal);
+  color: var(--texto);
 }
 
 .subtitulo {
   font-size: 1.05rem;
-  color: var(--texto-secundario);
+  color: var(--texto-suave);
   font-weight: 500;
 }
 
-/* ---------------------------------------------------------
-   4. SELETOR DE DATA / CALENDÁRIO
-   --------------------------------------------------------- */
 .secao-data {
-  background: var(--fundo-card);
-  border-radius: var(--raio-borda);
+  background: var(--card);
+  border-radius: 10px;
   padding: 0.8rem 1.2rem;
   margin-bottom: 1rem;
-  box-shadow: var(--sombra);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -99,36 +69,30 @@ body {
 .label-data {
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--texto-principal);
 }
 
 .input-data {
   font-family: 'Poppins', sans-serif;
   font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--texto-principal);
+  color: var(--texto);
   padding: 0.4rem 0.8rem;
   border: 1px solid var(--borda);
-  border-radius: 8px;
-  background-color: #f7fafc;
+  border-radius: 6px;
+  background-color: #fafafa;
   outline: none;
   cursor: pointer;
-  transition: border-color 0.2s;
 }
 
 .input-data:focus {
-  border-color: var(--verde-header);
+  border-color: var(--verde);
 }
 
-/* ---------------------------------------------------------
-   5. BARRA DE PROGRESSO GERAL DO DIA
-   --------------------------------------------------------- */
 .secao-progresso-geral {
-  background: var(--fundo-card);
-  border-radius: var(--raio-borda);
+  background: var(--card);
+  border-radius: 10px;
   padding: 1rem 1.2rem;
   margin-bottom: 1.5rem;
-  box-shadow: var(--sombra);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .progresso-info {
@@ -139,27 +103,22 @@ body {
   margin-bottom: 0.5rem;
 }
 
-/* Trilho cinza da barra de progresso */
 .progresso-barra {
   width: 100%;
   height: 10px;
-  background-color: #e2e8f0;
+  background-color: var(--borda);
   border-radius: 6px;
   overflow: hidden;
 }
 
-/* Preenchimento verde com transição suave */
 .progresso-fill {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #66bb6a, #43a047);
+  background-color: var(--verde);
   border-radius: 6px;
   transition: width 0.3s ease;
 }
 
-/* ---------------------------------------------------------
-   6. GRID E ESTRUTURA DOS CARDS (2x2)
-   --------------------------------------------------------- */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -168,28 +127,26 @@ body {
 }
 
 .card {
-  background: var(--fundo-card);
-  border-radius: var(--raio-borda);
+  background: var(--card);
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: var(--sombra);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
 }
 
-/* Faixa superior colorida de cada cartão */
 .card-topo {
   padding: 0.75rem 1rem;
   font-weight: 600;
   font-size: 0.9rem;
-  color: #1a202c;
+  color: #ffffff;
 }
 
-.topo-faculdade { background-color: var(--verde-header); color: #ffffff; }
-.topo-estudos { background-color: var(--laranja-header); color: #ffffff; }
-.topo-pessoal { background-color: var(--rosa-header); color: #ffffff; }
-.topo-entretenimento { background-color: var(--azul-header); color: #ffffff; }
+.topo-faculdade { background-color: var(--verde); }
+.topo-estudos { background-color: var(--laranja); }
+.topo-pessoal { background-color: var(--vermelho); }
+.topo-entretenimento { background-color: var(--azul); }
 
-/* Corpo interno do cartão */
 .card-conteudo {
   padding: 1rem;
   display: flex;
@@ -197,9 +154,6 @@ body {
   flex: 1;
 }
 
-/* ---------------------------------------------------------
-   7. STATUS DINÂMICO DO CARTÃO (bolinha colorida + texto)
-   --------------------------------------------------------- */
 .card-status {
   display: flex;
   align-items: center;
@@ -209,7 +163,6 @@ body {
   margin-bottom: 0.6rem;
 }
 
-/* A bolinha colorida */
 .bolinha {
   width: 9px;
   height: 9px;
@@ -217,33 +170,15 @@ body {
   display: inline-block;
 }
 
-/* Variação 1: Não iniciado (vermelho) */
-.card-status.status-nao-iniciado .bolinha {
-  background-color: var(--status-nao-iniciado);
-}
-.card-status.status-nao-iniciado .status-texto {
-  color: var(--status-nao-iniciado);
-}
+.card-status.status-nao-iniciado .bolinha { background-color: var(--vermelho); }
+.card-status.status-nao-iniciado .status-texto { color: var(--vermelho); }
 
-/* Variação 2: Em andamento (laranja) */
-.card-status.status-em-andamento .bolinha {
-  background-color: var(--status-em-andamento);
-}
-.card-status.status-em-andamento .status-texto {
-  color: var(--status-em-andamento);
-}
+.card-status.status-em-andamento .bolinha { background-color: var(--laranja); }
+.card-status.status-em-andamento .status-texto { color: var(--laranja); }
 
-/* Variação 3: Concluído (verde) */
-.card-status.status-concluido .bolinha {
-  background-color: var(--status-concluido);
-}
-.card-status.status-concluido .status-texto {
-  color: var(--status-concluido);
-}
+.card-status.status-concluido .bolinha { background-color: var(--verde); }
+.card-status.status-concluido .status-texto { color: var(--verde); }
 
-/* ---------------------------------------------------------
-   8. BARRA DE PROGRESSO INDIVIDUAL DE CADA CARD
-   --------------------------------------------------------- */
 .card-progresso {
   margin-bottom: 0.9rem;
 }
@@ -252,19 +187,15 @@ body {
   display: block;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--texto-secundario);
+  color: var(--texto-suave);
   margin-bottom: 0.3rem;
   text-align: right;
 }
 
-/* Versão mini da barra para caber dentro do card */
 .progresso-barra.mini {
   height: 7px;
 }
 
-/* ---------------------------------------------------------
-   9. LISTA DE TAREFAS DENTRO DO CARD
-   --------------------------------------------------------- */
 .lista-tarefas {
   list-style: none;
   display: flex;
@@ -274,20 +205,18 @@ body {
   flex: 1;
 }
 
-/* Cada item <li> da tarefa */
 .tarefa {
   display: flex;
   align-items: center;
   gap: 0.55rem;
-  font-size: 0.83rem;
+  font-size: 0.85rem;
   padding: 0.2rem 0;
 }
 
-/* Botão de marcar (checkbox estilizado) */
 .tarefa-check {
   width: 18px;
   height: 18px;
-  border: 2px solid #a0aec0;
+  border: 2px solid #aaa;
   border-radius: 4px;
   background: transparent;
   cursor: pointer;
@@ -299,53 +228,43 @@ body {
   color: transparent;
   flex-shrink: 0;
   padding: 0;
-  transition: all 0.2s ease;
 }
 
 .tarefa-check:hover {
-  border-color: #4a5568;
+  border-color: #666;
 }
 
-/* Texto da tarefa */
 .tarefa-texto {
   flex: 1;
   word-break: break-word;
-  color: var(--texto-principal);
   line-height: 1.35;
-  transition: color 0.2s;
 }
 
-/* Botão de excluir tarefa (✕) */
 .tarefa-remover {
   background: none;
   border: none;
-  color: #cbd5e0;
+  color: #bbb;
   cursor: pointer;
   font-size: 0.95rem;
   padding: 0 0.3rem;
   line-height: 1;
-  transition: color 0.2s;
 }
 
 .tarefa-remover:hover {
-  color: #e53935;
+  color: var(--vermelho);
 }
 
-/* Estilo quando a tarefa está concluída */
 .tarefa.concluida .tarefa-check {
-  background-color: var(--status-concluido);
-  border-color: var(--status-concluido);
+  background-color: var(--verde);
+  border-color: var(--verde);
   color: #ffffff;
 }
 
 .tarefa.concluida .tarefa-texto {
   text-decoration: line-through;
-  color: #a0aec0;
+  color: #999;
 }
 
-/* ---------------------------------------------------------
-   10. FORMULÁRIO DE ADICIONAR TAREFA
-   --------------------------------------------------------- */
 .form-adicionar {
   display: flex;
   gap: 0.4rem;
@@ -360,32 +279,27 @@ body {
   font-family: 'Poppins', sans-serif;
   font-size: 0.8rem;
   outline: none;
-  transition: border-color 0.2s;
 }
 
 .form-adicionar input:focus {
-  border-color: #718096;
+  border-color: #888;
 }
 
 .form-adicionar button {
   padding: 0.45rem 0.75rem;
   border: none;
   border-radius: 6px;
-  background-color: #edf2f7;
+  background-color: #eee;
   cursor: pointer;
   font-weight: 700;
   font-size: 0.95rem;
-  color: var(--texto-principal);
-  transition: background-color 0.2s;
+  color: var(--texto);
 }
 
 .form-adicionar button:hover {
-  background-color: #e2e8f0;
+  background-color: var(--borda);
 }
 
-/* ---------------------------------------------------------
-   11. RODAPÉ E BOTÃO DE RESTAURAR PADRÃO
-   --------------------------------------------------------- */
 .rodape {
   text-align: center;
   padding: 0.5rem 0 1rem;
@@ -393,26 +307,21 @@ body {
 
 .btn-resetar {
   background: transparent;
-  border: 1px solid #cbd5e0;
-  border-radius: 8px;
+  border: 1px solid var(--borda);
+  border-radius: 6px;
   padding: 0.55rem 1.3rem;
   font-family: 'Poppins', sans-serif;
   font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--texto-secundario);
+  color: var(--texto-suave);
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .btn-resetar:hover {
-  background-color: var(--fundo-card);
-  border-color: #a0aec0;
-  color: var(--texto-principal);
+  background-color: var(--card);
+  border-color: #aaa;
+  color: var(--texto);
 }
 
-/* ---------------------------------------------------------
-   12. RESPONSIVIDADE (Telas menores / celulares)
-   --------------------------------------------------------- */
 @media (max-width: 620px) {
   body {
     padding: 1rem 0.8rem;
@@ -423,7 +332,7 @@ body {
   }
 
   .cards-grid {
-    grid-template-columns: 1fr; /* Empilha os cartões em coluna única */
+    grid-template-columns: 1fr;
     gap: 1rem;
   }
 

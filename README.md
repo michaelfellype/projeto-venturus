@@ -1,4 +1,4 @@
-# 📚 Meus Dias de Estudante 🤓
+# 📚 Meus Dias de Estudante
 
 Aplicativo de gerenciamento de tarefas (To-Do List) desenvolvido com **HTML5**, **CSS3** e **JavaScript puro (Vanilla JS)** utilizando **Módulos ES6**.
 
@@ -8,7 +8,7 @@ Aplicativo de gerenciamento de tarefas (To-Do List) desenvolvido com **HTML5**, 
 
 Projeto criado para a conclusão do curso de Desenvolvimento Web e Introdução à Programação. O objetivo é demonstrar na prática conceitos fundamentais como:
 - Estruturação semântica em HTML5.
-- Estilização moderna com CSS Grid, Flexbox e Variáveis CSS.
+- Estilização com CSS Grid, Flexbox e Variáveis CSS.
 - Manipulação do DOM (Document Object Model) via JavaScript.
 - Persistência de dados no navegador com `localStorage`.
 - Separação de responsabilidades em arquitetura modular (State, View, Controller).
@@ -48,13 +48,12 @@ Projeto criado para a conclusão do curso de Desenvolvimento Web e Introdução 
 ```
 projeto/
 ├── index.html       → Estrutura semântica e acessível da página
-├── style.css        → Estilos organizados por seções com CSS Grid e Flexbox
+├── style.css        → Estilos organizados com CSS Grid e Flexbox
 ├── README.md        → Documentação explicativa do projeto
 └── src/
     ├── state.js     → Gerenciamento dos dados e persistência no localStorage por data
     ├── view.js      → Renderização visual, manipulação do DOM e status dinâmicos
-    ├── app.js       → Controlador principal que conecta os eventos do usuário
-    └── api.js       → Exemplo de consumo de API com fetch e async/await (código bônus)
+    └── app.js       → Controlador principal que conecta os eventos do usuário
 ```
 
 ---
