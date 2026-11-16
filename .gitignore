@@ -1,0 +1,6 @@
+# Ignora arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Ignora subpasta vazia antiga
+projeto_venturus-main/

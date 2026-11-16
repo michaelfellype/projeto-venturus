@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meus Dias de Estudante 🤓</title>
+
+  <!-- Fonte Poppins (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos do app -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Script principal (ES6 Module - carrega depois do HTML) -->
+  <script type="module" src="src/app.js"></script>
+</head>
+<body>
+
+  <main class="container">
+
+    <!-- ===================== CABEÇALHO ===================== -->
+    <header class="cabecalho">
+      <div class="logo">📚</div>
+      <h1 class="titulo-principal">Meus dias de estudante 🤓</h1>
+      <p class="subtitulo">Lista de Tarefas ✅</p>
+    </header>
+
+    <!-- ===================== SELETOR DE DATA ===================== -->
+    <!-- O usuário escolhe o dia e as tarefas mudam conforme a data -->
+    <section class="secao-data">
+      <label for="seletor-data" class="label-data">📅 Tarefas do dia:</label>
+      <input type="date" id="seletor-data" class="input-data">
+    </section>
+
+    <!-- ===================== PROGRESSO GERAL DO DIA ===================== -->
+    <!-- Mostra quantas tarefas foram concluídas no total -->
+    <section class="secao-progresso-geral">
+      <div class="progresso-info">
+        <span>Progresso do dia</span>
+        <span id="progresso-geral-texto">0/0 (0%)</span>
+      </div>
+      <div class="progresso-barra">
+        <div id="progresso-geral-fill" class="progresso-fill"></div>
+      </div>
+    </section>
+
+    <!-- ===================== GRID DE CARDS (2x2) ===================== -->
+    <div class="cards-grid">
+
+      <!-- Card 1: Faculdade -->
+      <div class="card card-faculdade">
+        <div class="card-topo topo-faculdade">
+          <span>📚 Tarefas da Faculdade</span>
+        </div>
+        <div class="card-conteudo">
+          <!-- Status dinâmico (muda via JS conforme o progresso) -->
+          <div class="card-status" id="status-faculdade">
+            <span class="bolinha"></span>
+            <span class="status-texto">Não iniciado</span>
+          </div>
+          <!-- Barra de progresso individual do card -->
+          <div class="card-progresso">
+            <span class="card-progresso-texto" id="progresso-texto-faculdade">0/0 (0%)</span>
+            <div class="progresso-barra mini">
+              <div class="progresso-fill" id="progresso-fill-faculdade"></div>
+            </div>
+          </div>
+          <!-- Lista de tarefas da categoria -->
+          <ul id="lista-faculdade" class="lista-tarefas"></ul>
+          <!-- Formulário para adicionar tarefa neste card -->
+          <form id="form-faculdade" class="form-adicionar">
+            <input type="text" id="input-faculdade" placeholder="Nova tarefa..." maxlength="80" required autocomplete="off">
+            <button type="submit">+</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Card 2: Estudos -->
+      <div class="card card-estudos">
+        <div class="card-topo topo-estudos">
+          <span>⭐ Cronograma de Estudos</span>
+        </div>
+        <div class="card-conteudo">
+          <div class="card-status" id="status-estudos">
+            <span class="bolinha"></span>
+            <span class="status-texto">Não iniciado</span>
+          </div>
+          <div class="card-progresso">
+            <span class="card-progresso-texto" id="progresso-texto-estudos">0/0 (0%)</span>
+            <div class="progresso-barra mini">
+              <div class="progresso-fill" id="progresso-fill-estudos"></div>
+            </div>
+          </div>
+          <ul id="lista-estudos" class="lista-tarefas"></ul>
+          <form id="form-estudos" class="form-adicionar">
+            <input type="text" id="input-estudos" placeholder="Nova tarefa..." maxlength="80" required autocomplete="off">
+            <button type="submit">+</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Card 3: Pessoal -->
+      <div class="card card-pessoal">
+        <div class="card-topo topo-pessoal">
+          <span>🎯 Metas Pessoais</span>
+        </div>
+        <div class="card-conteudo">
+          <div class="card-status" id="status-pessoal">
+            <span class="bolinha"></span>
+            <span class="status-texto">Não iniciado</span>
+          </div>
+          <div class="card-progresso">
+            <span class="card-progresso-texto" id="progresso-texto-pessoal">0/0 (0%)</span>
+            <div class="progresso-barra mini">
+              <div class="progresso-fill" id="progresso-fill-pessoal"></div>
+            </div>
+          </div>
+          <ul id="lista-pessoal" class="lista-tarefas"></ul>
+          <form id="form-pessoal" class="form-adicionar">
+            <input type="text" id="input-pessoal" placeholder="Nova tarefa..." maxlength="80" required autocomplete="off">
+            <button type="submit">+</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Card 4: Entretenimento -->
+      <div class="card card-entretenimento">
+        <div class="card-topo topo-entretenimento">
+          <span>🎬 Entretenimento</span>
+        </div>
+        <div class="card-conteudo">
+          <div class="card-status" id="status-entretenimento">
+            <span class="bolinha"></span>
+            <span class="status-texto">Não iniciado</span>
+          </div>
+          <div class="card-progresso">
+            <span class="card-progresso-texto" id="progresso-texto-entretenimento">0/0 (0%)</span>
+            <div class="progresso-barra mini">
+              <div class="progresso-fill" id="progresso-fill-entretenimento"></div>
+            </div>
+          </div>
+          <ul id="lista-entretenimento" class="lista-tarefas"></ul>
+          <form id="form-entretenimento" class="form-adicionar">
+            <input type="text" id="input-entretenimento" placeholder="Nova tarefa..." maxlength="80" required autocomplete="off">
+            <button type="submit">+</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===================== RODAPÉ (só o botão de restaurar) ===================== -->
+    <footer class="rodape">
+      <button type="button" id="btn-resetar" class="btn-resetar">🔄 Restaurar tarefas padrão</button>
+    </footer>
+
+  </main>
+
+</body>
+</html>
