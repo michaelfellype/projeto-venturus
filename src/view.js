@@ -7,12 +7,15 @@ export function renderizar(tarefas, onMarcar, onRemover, onEditar) {
     if (lista) lista.innerHTML = '';
   });
 
-  tarefas.forEach(tarefa => {
-    const lista = document.getElementById('lista-' + tarefa.categoria.toLowerCase());
-    if (lista) {
-      lista.appendChild(criarItem(tarefa, onMarcar, onRemover, onEditar));
-    }
-  });
+  if (Array.isArray(tarefas)) {
+    tarefas.forEach(tarefa => {
+      if (!tarefa || typeof tarefa.categoria !== 'string') return;
+      const lista = document.getElementById('lista-' + tarefa.categoria.toLowerCase());
+      if (lista) {
+        lista.appendChild(criarItem(tarefa, onMarcar, onRemover, onEditar));
+      }
+    });
+  }
 
   atualizarProgresso(tarefas);
 }
@@ -34,15 +37,20 @@ function criarItem(tarefa, onMarcar, onRemover, onEditar) {
   const span = document.createElement('span');
   span.className = 'tarefa-texto';
   span.textContent = tarefa.titulo;
-  span.title = 'Clique duas vezes para editar';
+  span.title = 'Clique duas vezes ou pressione Enter para editar';
+  span.setAttribute('tabindex', '0');
+  span.setAttribute('role', 'button');
+  span.setAttribute('aria-label', `${tarefa.titulo}. Clique duas vezes ou pressione Enter para editar.`);
 
-  // edicao com duplo clique
-  span.addEventListener('dblclick', () => {
+  function iniciarEdicao() {
+    if (li.querySelector('.input-edicao')) return;
+
     const inputEdicao = document.createElement('input');
     inputEdicao.type = 'text';
     inputEdicao.className = 'input-edicao';
     inputEdicao.value = tarefa.titulo;
     inputEdicao.maxLength = 80;
+    inputEdicao.setAttribute('aria-label', 'Editar título da tarefa');
 
     let finalizado = false;
 
@@ -79,7 +87,24 @@ function criarItem(tarefa, onMarcar, onRemover, onEditar) {
     li.replaceChild(inputEdicao, span);
     inputEdicao.focus();
     inputEdicao.select();
+  }
+
+  // edicao por duplo clique e por teclado (Enter ou Barra de espaco)
+  span.addEventListener('dblclick', iniciarEdicao);
+  span.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      iniciarEdicao();
+    }
   });
+
+  const btnEditar = document.createElement('button');
+  btnEditar.type = 'button';
+  btnEditar.className = 'tarefa-editar';
+  btnEditar.textContent = '✎';
+  btnEditar.setAttribute('aria-label', `Editar tarefa: ${tarefa.titulo}`);
+  btnEditar.title = 'Editar tarefa';
+  btnEditar.addEventListener('click', iniciarEdicao);
 
   const btnRemover = document.createElement('button');
   btnRemover.type = 'button';
@@ -90,22 +115,25 @@ function criarItem(tarefa, onMarcar, onRemover, onEditar) {
 
   li.appendChild(btnCheck);
   li.appendChild(span);
+  li.appendChild(btnEditar);
   li.appendChild(btnRemover);
 
   return li;
 }
 
 function atualizarProgresso(tarefas) {
+  const lista = Array.isArray(tarefas) ? tarefas.filter(t => t && typeof t === 'object') : [];
+
   // calcula o progresso de cada card
   categorias.forEach(cat => {
     const sufixo = cat.toLowerCase();
     let total = 0;
     let concluidas = 0;
 
-    for (let i = 0; i < tarefas.length; i++) {
-      if (tarefas[i].categoria === cat) {
+    for (let i = 0; i < lista.length; i++) {
+      if (lista[i].categoria === cat) {
         total++;
-        if (tarefas[i].concluida) {
+        if (lista[i].concluida) {
           concluidas++;
         }
       }
@@ -137,10 +165,10 @@ function atualizarProgresso(tarefas) {
   });
 
   // progresso geral do dia
-  let totalGeral = tarefas.length;
+  let totalGeral = lista.length;
   let concluidasGeral = 0;
-  for (let i = 0; i < tarefas.length; i++) {
-    if (tarefas[i].concluida) {
+  for (let i = 0; i < lista.length; i++) {
+    if (lista[i].concluida) {
       concluidasGeral++;
     }
   }

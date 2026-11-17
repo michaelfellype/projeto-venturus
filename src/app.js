@@ -7,7 +7,8 @@ import {
   restaurarPadrao,
   trazerPendentes,
   calcularSequencia,
-  resumoSemana
+  resumoSemana,
+  definirCallbackErroSalvar
 } from './state.js';
 
 import { somarDias } from './datas.js';
@@ -23,6 +24,16 @@ function formatarHoje() {
   return `${ano}-${mes}-${dia}`;
 }
 
+const DIAS_DA_SEMANA = [
+  'Domingo',
+  'Segunda-feira',
+  'Terça-feira',
+  'Quarta-feira',
+  'Quinta-feira',
+  'Sexta-feira',
+  'Sábado'
+];
+
 function exibirMensagem(texto) {
   const p = document.getElementById('mensagem');
   if (p) p.textContent = texto;
@@ -33,12 +44,21 @@ function limparMensagem() {
   if (p && p.textContent) p.textContent = '';
 }
 
+function atualizarDiaSemana() {
+  const el = document.getElementById('label-data') || document.querySelector('.label-data');
+  if (!el || !dataAtual) return;
+
+  const diaIndex = new Date(dataAtual + 'T00:00:00').getDay();
+  el.textContent = DIAS_DA_SEMANA[diaIndex] || '';
+}
+
 function atualizar() {
   const tarefas = pegarTarefas(dataAtual);
   renderizar(tarefas, alternar, excluir, editar);
   atualizarSequencia();
+  atualizarDiaSemana();
 
-  const resumo = resumoSemana(formatarHoje());
+  const resumo = resumoSemana(dataAtual || formatarHoje());
   renderizarSemana(resumo, dataAtual, (novaData) => {
     limparMensagem();
     dataAtual = novaData;
@@ -74,6 +94,12 @@ function atualizarSequencia() {
 
   const dias = calcularSequencia(formatarHoje());
   el.textContent = dias === 1 ? 'Sequência: 1 dia' : `Sequência: ${dias} dias`;
+
+  if (dias > 0) {
+    el.classList.add('ativa');
+  } else {
+    el.classList.remove('ativa');
+  }
 }
 
 function configurarTema() {
@@ -98,7 +124,12 @@ function configurarTema() {
     const estaEscuro = document.documentElement.getAttribute('data-tema') === 'escuro';
     const novoTema = estaEscuro ? 'claro' : 'escuro';
 
-    localStorage.setItem('tema', novoTema);
+    try {
+      localStorage.setItem('tema', novoTema);
+    } catch (erro) {
+      console.error('Erro ao salvar tema:', erro);
+      exibirMensagem('Não foi possível salvar a preferência de tema.');
+    }
     aplicarTema(novoTema);
   });
 }
@@ -113,16 +144,21 @@ function configurarData() {
 
   dataAtual = formatarHoje();
   inputData.value = dataAtual;
+  atualizarDiaSemana();
 
-  inputData.addEventListener('change', (e) => {
+  const aoMudarData = (e) => {
     limparMensagem();
     if (!e.target.value) {
       e.target.value = dataAtual;
       return;
     }
+    if (e.target.value === dataAtual) return;
     dataAtual = e.target.value;
     atualizar();
-  });
+  };
+
+  inputData.addEventListener('change', aoMudarData);
+  inputData.addEventListener('input', aoMudarData);
 
   if (btnAnterior) {
     btnAnterior.addEventListener('click', () => {
@@ -209,6 +245,7 @@ function configurarReset() {
 }
 
 function inicializar() {
+  definirCallbackErroSalvar(exibirMensagem);
   configurarTema();
   configurarData();
 
