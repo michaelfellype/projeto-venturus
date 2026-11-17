@@ -2,11 +2,16 @@ import {
   pegarTarefas,
   adicionarTarefa,
   marcarTarefa,
+  editarTarefa,
   removerTarefa,
-  restaurarPadrao
+  restaurarPadrao,
+  trazerPendentes,
+  calcularSequencia,
+  resumoSemana
 } from './state.js';
 
-import { renderizar } from './view.js';
+import { somarDias } from './datas.js';
+import { renderizar, renderizarSemana } from './view.js';
 
 let dataAtual = '';
 
@@ -18,19 +23,57 @@ function formatarHoje() {
   return `${ano}-${mes}-${dia}`;
 }
 
+function exibirMensagem(texto) {
+  const p = document.getElementById('mensagem');
+  if (p) p.textContent = texto;
+}
+
+function limparMensagem() {
+  const p = document.getElementById('mensagem');
+  if (p && p.textContent) p.textContent = '';
+}
+
 function atualizar() {
   const tarefas = pegarTarefas(dataAtual);
-  renderizar(tarefas, alternar, excluir);
+  renderizar(tarefas, alternar, excluir, editar);
+  atualizarSequencia();
+
+  const resumo = resumoSemana(formatarHoje());
+  renderizarSemana(resumo, dataAtual, (novaData) => {
+    limparMensagem();
+    dataAtual = novaData;
+    const inputData = document.getElementById('seletor-data');
+    if (inputData) {
+      inputData.value = dataAtual;
+    }
+    atualizar();
+  });
 }
 
 function alternar(id) {
+  limparMensagem();
   marcarTarefa(dataAtual, id);
   atualizar();
 }
 
 function excluir(id) {
+  limparMensagem();
   removerTarefa(dataAtual, id);
   atualizar();
+}
+
+function editar(id, novoTitulo) {
+  limparMensagem();
+  editarTarefa(dataAtual, id, novoTitulo);
+  atualizar();
+}
+
+function atualizarSequencia() {
+  const el = document.getElementById('sequencia');
+  if (!el) return;
+
+  const dias = calcularSequencia(formatarHoje());
+  el.textContent = dias === 1 ? 'Sequência: 1 dia' : `Sequência: ${dias} dias`;
 }
 
 function configurarTema() {
@@ -47,11 +90,11 @@ function configurarTema() {
     }
   }
 
-  // carrega o tema salvo ou usa o claro por padrao
   const temaSalvo = localStorage.getItem('tema') || 'claro';
   aplicarTema(temaSalvo);
 
   btnTema.addEventListener('click', () => {
+    limparMensagem();
     const estaEscuro = document.documentElement.getAttribute('data-tema') === 'escuro';
     const novoTema = estaEscuro ? 'claro' : 'escuro';
 
@@ -62,13 +105,17 @@ function configurarTema() {
 
 function configurarData() {
   const inputData = document.getElementById('seletor-data');
+  const btnAnterior = document.getElementById('dia-anterior');
+  const btnSeguinte = document.getElementById('dia-seguinte');
+  const btnHoje = document.getElementById('btn-hoje');
+
   if (!inputData) return;
 
   dataAtual = formatarHoje();
   inputData.value = dataAtual;
 
   inputData.addEventListener('change', (e) => {
-    // se o usuario limpar o campo de data, mantem a data anterior
+    limparMensagem();
     if (!e.target.value) {
       e.target.value = dataAtual;
       return;
@@ -76,6 +123,36 @@ function configurarData() {
     dataAtual = e.target.value;
     atualizar();
   });
+
+  if (btnAnterior) {
+    btnAnterior.addEventListener('click', () => {
+      if (!inputData.value) return;
+      limparMensagem();
+      dataAtual = somarDias(dataAtual, -1);
+      inputData.value = dataAtual;
+      atualizar();
+    });
+  }
+
+  if (btnSeguinte) {
+    btnSeguinte.addEventListener('click', () => {
+      if (!inputData.value) return;
+      limparMensagem();
+      dataAtual = somarDias(dataAtual, 1);
+      inputData.value = dataAtual;
+      atualizar();
+    });
+  }
+
+  if (btnHoje) {
+    btnHoje.addEventListener('click', () => {
+      if (!inputData.value) return;
+      limparMensagem();
+      dataAtual = formatarHoje();
+      inputData.value = dataAtual;
+      atualizar();
+    });
+  }
 }
 
 function configurarForm(idForm, idInput, categoria) {
@@ -85,6 +162,8 @@ function configurarForm(idForm, idInput, categoria) {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+    limparMensagem();
+
     const texto = input.value.trim();
     if (!texto) return;
 
@@ -96,11 +175,31 @@ function configurarForm(idForm, idInput, categoria) {
   });
 }
 
+function configurarPendentes() {
+  const btn = document.getElementById('btn-pendentes');
+  if (!btn) return;
+
+  btn.addEventListener('click', () => {
+    const ontem = somarDias(dataAtual, -1);
+    const qtd = trazerPendentes(ontem, dataAtual);
+    atualizar();
+
+    if (qtd === 1) {
+      exibirMensagem('1 tarefa trazida do dia anterior.');
+    } else if (qtd > 1) {
+      exibirMensagem(`${qtd} tarefas trazidas do dia anterior.`);
+    } else {
+      exibirMensagem('Nada pendente para trazer do dia anterior.');
+    }
+  });
+}
+
 function configurarReset() {
   const btn = document.getElementById('btn-resetar');
   if (!btn) return;
 
   btn.addEventListener('click', () => {
+    limparMensagem();
     const confirmou = confirm('Quer mesmo restaurar as tarefas padrão desse dia?');
     if (confirmou) {
       restaurarPadrao(dataAtual);
@@ -118,6 +217,7 @@ function inicializar() {
   configurarForm('form-pessoal', 'input-pessoal', 'Pessoal');
   configurarForm('form-entretenimento', 'input-entretenimento', 'Entretenimento');
 
+  configurarPendentes();
   configurarReset();
   atualizar();
 }

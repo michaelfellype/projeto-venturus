@@ -20,17 +20,25 @@
       <div class="logo">📚</div>
       <h1 class="titulo-principal">Organiza <span class="destaque">Aí</span></h1>
       <p class="subtitulo">Suas tarefas do dia, em um só lugar</p>
-      <button type="button" id="btn-tema" class="btn-tema">🌙 Tema escuro</button>
+      <span id="sequencia" class="sequencia">Sequência: 0 dias</span>
+      <div>
+        <button type="button" id="btn-tema" class="btn-tema">🌙 Tema escuro</button>
+      </div>
     </header>
 
     <section class="secao-data">
       <label for="seletor-data" class="label-data">Tarefas do dia:</label>
-      <input type="date" id="seletor-data" class="input-data">
+      <div class="nav-data">
+        <button type="button" id="dia-anterior" class="btn-nav" aria-label="Dia anterior">‹</button>
+        <input type="date" id="seletor-data" class="input-data">
+        <button type="button" id="dia-seguinte" class="btn-nav" aria-label="Próximo dia">›</button>
+        <button type="button" id="btn-hoje" class="btn-nav">Hoje</button>
+      </div>
     </section>
 
     <section class="secao-progresso-geral">
       <div class="progresso-info">
-        <span>Progresso do dia</span>
+        <span id="progresso-titulo">Progresso do dia</span>
         <span id="progresso-geral-texto">0/0 (0%)</span>
       </div>
       <div class="progresso-barra">
@@ -38,9 +46,17 @@
       </div>
     </section>
 
+    <section class="caixa-semana">
+      <div class="semana-topo">
+        <span>Resumo da semana</span>
+        <span id="semana-texto"></span>
+      </div>
+      <div id="semana" class="semana"></div>
+    </section>
+
     <div class="cards-grid">
 
-      <div class="card card-faculdade">
+      <div class="card">
         <div class="card-topo topo-faculdade">
           <span>📚 Tarefas da Faculdade</span>
         </div>
@@ -63,7 +79,7 @@
         </div>
       </div>
 
-      <div class="card card-estudos">
+      <div class="card">
         <div class="card-topo topo-estudos">
           <span>⭐ Cronograma de Estudos</span>
         </div>
@@ -86,7 +102,7 @@
         </div>
       </div>
 
-      <div class="card card-pessoal">
+      <div class="card">
         <div class="card-topo topo-pessoal">
           <span>🎯 Metas Pessoais</span>
         </div>
@@ -109,7 +125,7 @@
         </div>
       </div>
 
-      <div class="card card-entretenimento">
+      <div class="card">
         <div class="card-topo topo-entretenimento">
           <span>🎬 Entretenimento</span>
         </div>
@@ -135,7 +151,11 @@
     </div>
 
     <footer class="rodape">
-      <button type="button" id="btn-resetar" class="btn-resetar">Restaurar tarefas padrão</button>
+      <div class="rodape-botoes">
+        <button type="button" id="btn-pendentes" class="btn-resetar">Trazer pendentes de ontem</button>
+        <button type="button" id="btn-resetar" class="btn-resetar">Restaurar tarefas padrão</button>
+      </div>
+      <p id="mensagem" class="mensagem"></p>
     </footer>
 
   </main>

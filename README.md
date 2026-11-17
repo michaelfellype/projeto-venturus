@@ -9,11 +9,11 @@ Aplicativo de gerenciamento de tarefas (To-Do List) desenvolvido com **HTML5**, 
 ## 🎯 Objetivo do Projeto
 
 Projeto criado para a conclusão do curso de Desenvolvimento Web e Introdução à Programação. O objetivo é demonstrar na prática conceitos fundamentais como:
-- Estruturação semântica em HTML5.
-- Estilização com CSS Grid, Flexbox e Variáveis CSS (com suporte a tema claro e escuro).
+- Estruturação semântica em HTML5 e acessibilidade (`aria-label`, títulos).
+- Estilização com CSS Grid, Flexbox e Variáveis CSS (suporte completo a tema claro e escuro).
 - Manipulação do DOM (Document Object Model) via JavaScript.
 - Persistência de dados e preferências no navegador com `localStorage`.
-- Separação de responsabilidades em arquitetura modular (State, View, Controller).
+- Separação de responsabilidades em arquitetura modular (Datas, State, View, Controller).
 
 ---
 
@@ -28,19 +28,27 @@ Projeto criado para a conclusão do curso de Desenvolvimento Web e Introdução 
 2. **Tema Claro e Escuro**:
    - Botão para alternar entre os temas claro e escuro, com preferência salva no `localStorage`.
 
-3. **Seletor de Datas / Calendário**:
-   - Escolha qualquer dia no calendário: as tarefas, o progresso e os status são salvos e carregados de forma independente por data.
+3. **Navegação por Datas e Calendário**:
+   - Escolha o dia no calendário ou use os botões rápidos **‹ (anterior)**, **› (próximo)** e **Hoje**.
+   - As tarefas de cada data são salvas e mantidas de forma independente.
 
-4. **Status Dinâmico por Cartão**:
-   - 🔴 **Não iniciado**: quando 0% das tarefas do cartão estão concluídas.
-   - 🟠 **Em andamento**: quando pelo menos uma tarefa foi marcada, mas ainda faltam outras.
-   - 🟢 **Concluído**: quando 100% das tarefas do cartão foram concluídas.
+4. **Trazer Pendentes de Ontem**:
+   - Botão que identifica tarefas não concluídas do dia anterior e as traz para o dia selecionado (sem duplicar tarefas com o mesmo título).
 
-5. **Barras de Progresso**:
-   - **Barra Geral**: mostra a porcentagem total de tarefas concluídas no dia.
-   - **Barras Individuais**: cada cartão tem seu próprio indicador e barra de progresso proporcional.
+5. **Edição com Duplo Clique**:
+   - Dê um duplo clique no texto de qualquer tarefa para editar diretamente no card. Salve com `Enter` ou clicando fora, e cancele com `Esc`.
 
-6. **Ações Rápidas**:
+6. **Status Dinâmico e Dia Concluído (100%)**:
+   - Indicadores de status em cada cartão: *Não iniciado*, *Em andamento* e *Concluído*.
+   - Ao atingir 100% das tarefas no dia, o cabeçalho de progresso comemora com **"Dia concluído!"** em destaque verde.
+
+7. **Sequência de Dias Concluídos**:
+   - Contador de ofensiva (*streak*) no topo da página, calculando quantos dias consecutivos completos o estudante conseguiu manter.
+
+8. **Resumo da Semana**:
+   - Faixa com os últimos 7 dias, cada um colorido (verde para dia 100% concluído, laranja para parcial, cinza para sem tarefas ou 0%), com clique para ir até o dia.
+
+9. **Ações Rápidas**:
    - Adicionar nova tarefa em qualquer categoria.
    - Marcar/desmarcar tarefas com um clique.
    - Excluir tarefa no botão `✕`.
@@ -53,12 +61,13 @@ Projeto criado para a conclusão do curso de Desenvolvimento Web e Introdução 
 ```
 projeto/
 ├── index.html       → Estrutura semântica e acessível da página
-├── style.css        → Estilos organizados com CSS Grid, Flexbox e temas
+├── style.css        → Estilos com CSS Grid, Flexbox, temas e responsividade
 ├── README.md        → Documentação explicativa do projeto
 └── src/
+    ├── datas.js     → Funções utilitárias para cálculo e formatação de datas
     ├── state.js     → Gerenciamento dos dados e persistência no localStorage por data
-    ├── view.js      → Renderização visual, manipulação do DOM e status dinâmicos
-    └── app.js       → Controlador principal e gerenciamento do tema
+    ├── view.js      → Renderização visual, manipulação do DOM e edição inline
+    └── app.js       → Controlador principal conectando eventos, tema e navegação
 ```
 
 ---
