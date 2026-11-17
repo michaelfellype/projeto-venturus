@@ -1,92 +1,115 @@
 # 📚 Organiza Aí
 
-Aplicativo de gerenciamento de tarefas (To-Do List) desenvolvido com **HTML5**, **CSS3** e **JavaScript puro (Vanilla JS)** utilizando **Módulos ES6**.
+Aplicativo de gerenciamento de tarefas (To-Do List) desenvolvido com **HTML5**, **CSS3** e **JavaScript puro (Vanilla JavaScript)**, utilizando **módulos ES6**.
 
 > Suas tarefas do dia, em um só lugar.
 
----
+## 🌐 Aplicativo publicado
+
+Acesse a versão online: [Organiza Aí](https://projeto-venturus-omega.vercel.app/).
 
 ## 🎯 Objetivo do Projeto
 
-Projeto criado para a conclusão do curso de Desenvolvimento Web e Introdução à Programação. O objetivo é demonstrar na prática conceitos fundamentais como:
-- Estruturação semântica em HTML5 e acessibilidade (`aria-label`, títulos).
-- Estilização com CSS Grid, Flexbox e Variáveis CSS (suporte completo a tema claro e escuro).
-- Manipulação do DOM (Document Object Model) via JavaScript.
-- Persistência de dados e preferências no navegador com `localStorage`.
-- Separação de responsabilidades em arquitetura modular (Datas, State, View, Controller).
+Projeto desenvolvido para a conclusão do curso de Desenvolvimento Web e Introdução à Programação. O objetivo é demonstrar conceitos fundamentais, como:
 
----
+- Estruturação de páginas com HTML5 e recursos básicos de acessibilidade, como `aria-label` e navegação por teclado em algumas ações.
+- Estilização com CSS Grid, Flexbox e variáveis CSS.
+- Criação de temas claro e escuro.
+- Manipulação do DOM (Document Object Model) com JavaScript.
+- Persistência de tarefas e preferências no navegador com `localStorage`.
+- Separação de responsabilidades em módulos para datas, dados, visualização e controle da aplicação.
 
 ## 🚀 Funcionalidades
 
-1. **4 Cartões Temáticos de Categorias**:
+1. **Quatro categorias de tarefas**
    - 📚 **Tarefas da Faculdade**: atividades acadêmicas e trabalhos.
    - ⭐ **Cronograma de Estudos**: revisões, provas e simulados.
    - 🎯 **Metas Pessoais**: exercícios, hábitos e organização pessoal.
    - 🎬 **Entretenimento**: momentos de lazer e descanso.
 
-2. **Tema Claro e Escuro**:
-   - Botão para alternar entre os temas claro e escuro, com preferência salva no `localStorage`.
+2. **Tema claro e escuro**
+   - Alternância entre os temas claro e escuro.
+   - A preferência é salva no `localStorage` do navegador.
 
-3. **Navegação por Datas e Calendário**:
-   - Escolha o dia no calendário ou use os botões rápidos **‹ (anterior)**, **› (próximo)** e **Hoje**.
-   - As tarefas de cada data são salvas e mantidas de forma independente.
+3. **Navegação por datas**
+   - Escolha uma data pelo calendário ou use os botões **‹**, **›** e **Hoje**.
+   - Cada data tem sua própria lista de tarefas.
+   - O nome do dia da semana acompanha a data selecionada.
 
-4. **Trazer Pendentes de Ontem**:
-   - Botão que identifica tarefas não concluídas do dia anterior e as traz para o dia selecionado (sem duplicar tarefas com o mesmo título).
+4. **Trazer tarefas pendentes**
+   - Copia tarefas não concluídas de ontem para a data selecionada.
+   - Evita duplicar tarefas com o mesmo título.
+   - Só importa tarefas de um dia anterior que tenha dados salvos.
 
-5. **Edição com Duplo Clique**:
-   - Dê um duplo clique no texto de qualquer tarefa para editar diretamente no card. Salve com `Enter` ou clicando fora, e cancele com `Esc`.
+5. **Adicionar, editar, concluir e excluir tarefas**
+   - Adicione tarefas em qualquer categoria.
+   - Marque ou desmarque uma tarefa com um clique.
+   - Edite pelo botão de lápis, com duplo clique ou pelo teclado.
+   - Salve a edição com `Enter` ou ao sair do campo; use `Esc` para cancelar.
+   - Exclua uma tarefa pelo botão `✕`.
 
-6. **Status Dinâmico e Dia Concluído (100%)**:
-   - Indicadores de status em cada cartão: *Não iniciado*, *Em andamento* e *Concluído*.
-   - Ao atingir 100% das tarefas no dia, o cabeçalho de progresso comemora com **"Dia concluído!"** em destaque verde.
+6. **Status e progresso**
+   - Cada categoria mostra o status **Não iniciado**, **Em andamento** ou **Concluído**.
+   - Barras mostram o progresso por categoria e do dia.
+   - Quando todas as tarefas do dia estão concluídas, aparece **“Dia concluído!”**.
 
-7. **Sequência de Dias Concluídos**:
-   - Contador de ofensiva (*streak*) no topo da página, calculando quantos dias consecutivos completos o estudante conseguiu manter.
+7. **Sequência de dias concluídos**
+   - Conta dias completos consecutivos registrados.
+   - Um dia conta quando tem tarefas salvas, a lista não está vazia e todas as tarefas estão concluídas.
+   - Se hoje ainda não foi concluído, a contagem começa por ontem.
+   - A sequência usa a data real de hoje, mesmo que outra data esteja selecionada.
 
-8. **Resumo da Semana**:
-   - Faixa com os últimos 7 dias, cada um colorido (verde para dia 100% concluído, laranja para parcial, cinza para sem tarefas ou 0%), com clique para ir até o dia.
+8. **Resumo semanal**
+   - Mostra sete dias, terminando na data selecionada.
+   - Verde indica 100% concluído; laranja indica progresso parcial; cinza indica zero ou ausência de tarefas salvas.
+   - Clique em um dia para abrir essa data.
 
-9. **Ações Rápidas**:
-   - Adicionar nova tarefa em qualquer categoria.
-   - Marcar/desmarcar tarefas com um clique.
-   - Excluir tarefa no botão `✕`.
-   - Botão **Restaurar tarefas padrão** com confirmação de segurança.
+9. **Restaurar tarefas padrão**
+   - Recria as tarefas padrão da data selecionada.
+   - O aplicativo pede confirmação antes de restaurar.
 
----
+## 💾 Armazenamento dos Dados
+
+As tarefas e a preferência de tema são guardadas no `localStorage` do navegador. Os dados permanecem no navegador e dispositivo atuais, não são sincronizados automaticamente com outros aparelhos e podem ser removidos ao limpar os dados do navegador.
 
 ## 📁 Estrutura de Arquivos
 
-```
+```text
 projeto/
-├── index.html       → Estrutura semântica e acessível da página
-├── style.css        → Estilos com CSS Grid, Flexbox, temas e responsividade
-├── README.md        → Documentação explicativa do projeto
+├── index.html       → Estrutura da página
+├── style.css        → Estilos, temas e responsividade
+├── README.md        → Documentação do projeto
 └── src/
-    ├── datas.js     → Funções utilitárias para cálculo e formatação de datas
-    ├── state.js     → Gerenciamento dos dados e persistência no localStorage por data
-    ├── view.js      → Renderização visual, manipulação do DOM e edição inline
-    └── app.js       → Controlador principal conectando eventos, tema e navegação
+    ├── datas.js     → Cálculos de datas
+    ├── state.js     → Tarefas, regras e persistência no localStorage
+    ├── view.js      → Renderização e atualização da interface
+    └── app.js       → Inicialização e controle dos eventos
 ```
 
----
+## 💻 Como Executar o Projeto
 
-## 💻 Como Rodar o Projeto
+Como o projeto usa módulos ES6 nativos (`import` e `export`), execute-o por meio de um servidor local.
 
-Como o projeto usa **Módulos ES6 nativos** (`import` / `export`), é necessário executá-lo através de um servidor local:
+### Opção 1: Live Server no VS Code
 
-### Opção 1: Extensão Live Server (VS Code)
 1. Abra a pasta do projeto no VS Code.
-2. Clique com o botão direito no arquivo `index.html`.
-3. Selecione **"Open with Live Server"**.
+2. Clique com o botão direito em `index.html`.
+3. Selecione **Open with Live Server**.
 
-### Opção 2: Terminal (Python ou Node)
+### Opção 2: Python
+
+No terminal, dentro da pasta do projeto, execute:
+
 ```bash
-# Com Python:
 python -m http.server 8000
+```
 
-# Ou com Node.js:
+Depois, acesse `http://localhost:8000` no navegador.
+
+### Opção 3: Node.js
+
+Se tiver Node.js instalado, execute:
+
+```bash
 npx serve .
 ```
-Acesse `http://localhost:8000` no seu navegador.
