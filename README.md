@@ -16,7 +16,7 @@ Projeto desenvolvido para a conclusão do curso de Desenvolvimento Web e Introdu
 - Estilização com CSS Grid, Flexbox e variáveis CSS.
 - Criação de temas claro e escuro.
 - Manipulação do DOM (Document Object Model) com JavaScript.
-- Persistência de tarefas e preferências no navegador com `localStorage`.
+- Tarefas e preferências no navegador com `localStorage`.
 - Separação de responsabilidades em módulos para datas, dados, visualização e controle da aplicação.
 
 ## 🚀 Funcionalidades
