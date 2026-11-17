@@ -2,23 +2,83 @@ import { somarDias } from './datas.js';
 
 const PREFIXO = 'tarefas_';
 
-const TAREFAS_PADRAO = [
-  { id: 'f1', categoria: 'Faculdade', titulo: 'Pesquisar tema do artigo de História', concluida: false },
-  { id: 'f2', categoria: 'Faculdade', titulo: 'Completar lista de exercícios do Cap. 5', concluida: false },
-  { id: 'f3', categoria: 'Faculdade', titulo: 'Escrever resenha do livro de literatura', concluida: false },
+const PADRAO_SEMANA = {
+  // 0 = domingo
+  0: [
+    ['Estudos', 'Revisar a matéria da semana'],
+    ['Pessoal', 'Preparar as marmitas'],
+    ['Pessoal', 'Separar a mochila de segunda'],
+    ['Entretenimento', 'Ver um filme com a família']
+  ],
+  // 1 = segunda
+  1: [
+    ['Faculdade', 'Ler o capítulo da aula de hoje'],
+    ['Faculdade', 'Entregar o trabalho em grupo'],
+    ['Estudos', 'Revisar HTML e CSS por 30 minutos'],
+    ['Estudos', 'Fazer os exercícios do curso'],
+    ['Pessoal', 'Planejar a semana'],
+    ['Pessoal', 'Caminhada de 30 minutos'],
+    ['Entretenimento', 'Um episódio de série']
+  ],
+  // 2 = terça
+  2: [
+    ['Faculdade', 'Resolver a lista de exercícios'],
+    ['Faculdade', 'Fazer o resumo da aula'],
+    ['Estudos', 'Praticar funções e arrays em JavaScript'],
+    ['Estudos', 'Assistir uma aula do curso'],
+    ['Pessoal', 'Treino na academia'],
+    ['Pessoal', 'Estudar inglês por 15 minutos'],
+    ['Entretenimento', 'Jogar com os amigos']
+  ],
+  // 3 = quarta
+  3: [
+    ['Faculdade', 'Estudar para a prova de sexta'],
+    ['Faculdade', 'Reunião do grupo do projeto'],
+    ['Estudos', 'Resolver um simulado'],
+    ['Estudos', 'Revisar DOM e eventos'],
+    ['Pessoal', 'Lavar roupa'],
+    ['Entretenimento', 'Ler um capítulo do livro']
+  ],
+  // 4 = quinta
+  4: [
+    ['Faculdade', 'Fazer o fichamento do texto'],
+    ['Faculdade', 'Montar os slides da apresentação'],
+    ['Estudos', 'Praticar localStorage no projeto'],
+    ['Estudos', 'Revisar as anotações da semana'],
+    ['Pessoal', 'Treino na academia'],
+    ['Pessoal', 'Pagar as contas do mês'],
+    ['Entretenimento', 'Assistir um filme']
+  ],
+  // 5 = sexta
+  5: [
+    ['Faculdade', 'Fazer a prova'],
+    ['Faculdade', 'Entregar a lista de exercícios'],
+    ['Estudos', 'Revisão rápida antes da prova'],
+    ['Pessoal', 'Organizar o quarto'],
+    ['Entretenimento', 'Sair com os amigos']
+  ],
+  // 6 = sábado
+  6: [
+    ['Estudos', 'Terminar o projeto do curso'],
+    ['Estudos', 'Testar o app em outro navegador'],
+    ['Pessoal', 'Corrida de manhã'],
+    ['Pessoal', 'Compras da semana'],
+    ['Entretenimento', 'Maratonar uma série'],
+    ['Entretenimento', 'Almoço em família']
+  ]
+};
 
-  { id: 'e1', categoria: 'Estudos', titulo: 'Revisar anotações da aula e fazer resumo', concluida: false },
-  { id: 'e2', categoria: 'Estudos', titulo: 'Resolver simulado para a prova de sexta', concluida: false },
-  { id: 'e3', categoria: 'Estudos', titulo: 'Reunir com o grupo do projeto de física', concluida: false },
+export function padraoDoDia(data) {
+  const diaSemana = new Date(data + 'T00:00:00').getDay();
+  const tarefas = PADRAO_SEMANA[diaSemana] || [];
 
-  { id: 'p1', categoria: 'Pessoal', titulo: 'Fazer 30 minutos de caminhada ou treino', concluida: false },
-  { id: 'p2', categoria: 'Pessoal', titulo: 'Praticar 15 minutos de vocabulário de inglês', concluida: false },
-  { id: 'p3', categoria: 'Pessoal', titulo: 'Atualizar currículo e perfil do LinkedIn', concluida: false },
-
-  { id: 'd1', categoria: 'Entretenimento', titulo: 'Assistir a um filme ou episódio de série', concluida: false },
-  { id: 'd2', categoria: 'Entretenimento', titulo: 'Jogar um pouco do jogo favorito', concluida: false },
-  { id: 'd3', categoria: 'Entretenimento', titulo: 'Ler um capítulo de um livro por lazer', concluida: false }
-];
+  return tarefas.map(([categoria, titulo], posicao) => ({
+    id: 'p' + diaSemana + '_' + posicao,
+    categoria,
+    titulo,
+    concluida: false
+  }));
+}
 
 function salvar(data, lista) {
   try {
@@ -34,7 +94,7 @@ export function pegarTarefas(data) {
     const dados = localStorage.getItem(PREFIXO + data);
 
     if (!dados) {
-      return TAREFAS_PADRAO.map(t => ({ ...t }));
+      return padraoDoDia(data);
     }
 
     const lista = JSON.parse(dados);
@@ -102,7 +162,7 @@ export function removerTarefa(data, id) {
 }
 
 export function restaurarPadrao(data) {
-  const padrao = TAREFAS_PADRAO.map(t => ({ ...t }));
+  const padrao = padraoDoDia(data);
   salvar(data, padrao);
   return padrao;
 }
