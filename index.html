@@ -18,7 +18,7 @@
 
     <header class="cabecalho">
       <div class="logo">📚</div>
-      <h1 class="titulo-principal">Organiza<span class="destaque">Aí</span></h1>
+      <h1 class="titulo-principal">Organiza <span class="destaque">Aí</span></h1>
       <p class="subtitulo">Suas tarefas do dia, em um só lugar</p>
       <span id="sequencia" class="sequencia">Sequência: 0 dias</span>
       <div>
@@ -73,8 +73,9 @@
           </div>
           <ul id="lista-faculdade" class="lista-tarefas"></ul>
           <form id="form-faculdade" class="form-adicionar">
-            <input type="text" id="input-faculdade" placeholder="Nova tarefa..." maxlength="80" required autocomplete="off">
-            <button type="submit">+</button>
+            <label for="input-faculdade" class="sr-only">Nova tarefa para Faculdade</label>
+            <input type="text" id="input-faculdade" placeholder="Nova tarefa..." maxlength="80" required autocomplete="off" aria-label="Nova tarefa para Faculdade">
+            <button type="submit" aria-label="Adicionar tarefa em Faculdade">+</button>
           </form>
         </div>
       </div>
@@ -96,8 +97,9 @@
           </div>
           <ul id="lista-estudos" class="lista-tarefas"></ul>
           <form id="form-estudos" class="form-adicionar">
-            <input type="text" id="input-estudos" placeholder="Nova tarefa..." maxlength="80" required autocomplete="off">
-            <button type="submit">+</button>
+            <label for="input-estudos" class="sr-only">Nova tarefa para Cronograma de Estudos</label>
+            <input type="text" id="input-estudos" placeholder="Nova tarefa..." maxlength="80" required autocomplete="off" aria-label="Nova tarefa para Cronograma de Estudos">
+            <button type="submit" aria-label="Adicionar tarefa em Estudos">+</button>
           </form>
         </div>
       </div>
@@ -119,8 +121,9 @@
           </div>
           <ul id="lista-pessoal" class="lista-tarefas"></ul>
           <form id="form-pessoal" class="form-adicionar">
-            <input type="text" id="input-pessoal" placeholder="Nova tarefa..." maxlength="80" required autocomplete="off">
-            <button type="submit">+</button>
+            <label for="input-pessoal" class="sr-only">Nova tarefa para Metas Pessoais</label>
+            <input type="text" id="input-pessoal" placeholder="Nova tarefa..." maxlength="80" required autocomplete="off" aria-label="Nova tarefa para Metas Pessoais">
+            <button type="submit" aria-label="Adicionar tarefa em Metas Pessoais">+</button>
           </form>
         </div>
       </div>
@@ -142,8 +145,9 @@
           </div>
           <ul id="lista-entretenimento" class="lista-tarefas"></ul>
           <form id="form-entretenimento" class="form-adicionar">
-            <input type="text" id="input-entretenimento" placeholder="Nova tarefa..." maxlength="80" required autocomplete="off">
-            <button type="submit">+</button>
+            <label for="input-entretenimento" class="sr-only">Nova tarefa para Entretenimento</label>
+            <input type="text" id="input-entretenimento" placeholder="Nova tarefa..." maxlength="80" required autocomplete="off" aria-label="Nova tarefa para Entretenimento">
+            <button type="submit" aria-label="Adicionar tarefa em Entretenimento">+</button>
           </form>
         </div>
       </div>

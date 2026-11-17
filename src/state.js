@@ -97,11 +97,21 @@ export function validarTarefa(t) {
   if (typeof t.categoria !== 'string' || !CATEGORIAS_VALIDAS.includes(t.categoria)) return null;
   if (typeof t.titulo !== 'string' || t.titulo.trim() === '') return null;
 
+  // Valida concluida como booleano verdadeiro/falso sem converter "false" em true
+  let concluida = false;
+  if (typeof t.concluida === 'boolean') {
+    concluida = t.concluida;
+  } else if (t.concluida === 'true') {
+    concluida = true;
+  } else if (t.concluida === 'false') {
+    concluida = false;
+  }
+
   return {
     id: String(t.id),
     categoria: t.categoria,
     titulo: t.titulo.trim(),
-    concluida: Boolean(t.concluida)
+    concluida
   };
 }
 

@@ -116,7 +116,12 @@ function configurarTema() {
     }
   }
 
-  const temaSalvo = localStorage.getItem('tema') || 'claro';
+  let temaSalvo = 'claro';
+  try {
+    temaSalvo = localStorage.getItem('tema') || 'claro';
+  } catch (erro) {
+    console.error('Erro ao ler tema do localStorage:', erro);
+  }
   aplicarTema(temaSalvo);
 
   btnTema.addEventListener('click', () => {
