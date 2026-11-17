@@ -100,7 +100,17 @@ input, button {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--texto-suave);
-  margin-top: 0.3rem;
+  border: 1px solid var(--borda);
+  border-radius: 20px;
+  padding: 0.3rem 0.85rem;
+  margin-top: 0.4rem;
+  background-color: transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.sequencia.ativa {
+  color: var(--laranja);
+  border-color: var(--laranja);
 }
 
 .btn-tema {
@@ -123,24 +133,30 @@ input, button {
 .secao-data {
   background: var(--card);
   border-radius: 10px;
-  padding: 0.8rem 1.2rem;
-  margin-bottom: 1rem;
+  padding: 0.9rem 1.5rem;
+  margin: 0 auto 1rem;
   box-shadow: var(--sombra);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  text-align: center;
+  gap: 0.75rem;
+  width: fit-content;
+  max-width: 420px;
 }
 
 .label-data {
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 600;
+  text-align: center;
 }
 
 .nav-data {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
+  flex-wrap: wrap;
 }
 
 .btn-nav {
@@ -549,18 +565,40 @@ input, button {
   }
 
   .secao-data {
+    display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+    padding: 0.8rem 0.6rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto 1rem;
+  }
+
+  .label-data {
+    text-align: center;
+    width: 100%;
   }
 
   .nav-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
     width: 100%;
-    justify-content: space-between;
+    max-width: 100%;
+  }
+
+  .btn-nav {
+    flex-shrink: 0;
   }
 
   .input-data {
-    flex: 1;
     width: auto;
+    max-width: 100%;
+    text-align: center;
   }
 
   .semana {
