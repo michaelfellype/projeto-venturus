@@ -1,21 +1,21 @@
 const PREFIXO = 'tarefas_';
 
 const TAREFAS_PADRAO = [
-  { id: 'f1', categoria: 'Faculdade', titulo: 'Pesquisar tema do artigo de História', concluida: false },
-  { id: 'f2', categoria: 'Faculdade', titulo: 'Completar lista de exercícios do Cap. 5', concluida: false },
-  { id: 'f3', categoria: 'Faculdade', titulo: 'Escrever resenha do livro de literatura', concluida: false },
+  { id: 'f1', categoria: 'Faculdade', titulo: 'Pesquisar tema do artigo', concluida: false },
+  { id: 'f2', categoria: 'Faculdade', titulo: 'Completar lista de exercícios ', concluida: false },
+  { id: 'f3', categoria: 'Faculdade', titulo: 'Concluir modulo 5 do curso', concluida: false },
 
   { id: 'e1', categoria: 'Estudos', titulo: 'Revisar anotações da aula e fazer resumo', concluida: false },
   { id: 'e2', categoria: 'Estudos', titulo: 'Resolver simulado para a prova de sexta', concluida: false },
-  { id: 'e3', categoria: 'Estudos', titulo: 'Reunir com o grupo do projeto de física', concluida: false },
+  { id: 'e3', categoria: 'Estudos', titulo: 'Reunir com o grupo do projeto do curso', concluida: false },
 
-  { id: 'p1', categoria: 'Pessoal', titulo: 'Fazer 30 minutos de caminhada ou treino', concluida: false },
+  { id: 'p1', categoria: 'Pessoal', titulo: 'Fazer 30 minutos de caminhada', concluida: false },
   { id: 'p2', categoria: 'Pessoal', titulo: 'Praticar 15 minutos de vocabulário de inglês', concluida: false },
   { id: 'p3', categoria: 'Pessoal', titulo: 'Atualizar currículo e perfil do LinkedIn', concluida: false },
 
-  { id: 'd1', categoria: 'Entretenimento', titulo: 'Assistir a um filme ou episódio de série', concluida: false },
-  { id: 'd2', categoria: 'Entretenimento', titulo: 'Jogar um pouco do jogo favorito', concluida: false },
-  { id: 'd3', categoria: 'Entretenimento', titulo: 'Ler um capítulo de um livro por lazer', concluida: false }
+  { id: 'd1', categoria: 'Entretenimento', titulo: 'Assistir um filme ou episódio da série', concluida: false },
+  { id: 'd2', categoria: 'Entretenimento', titulo: 'Jogar um pouco de gta 6', concluida: false },
+  { id: 'd3', categoria: 'Entretenimento', titulo: 'Ler um capítulo de um livro ', concluida: false }
 ];
 
 function salvar(data, lista) {
